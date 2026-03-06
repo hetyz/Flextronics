@@ -8,7 +8,7 @@ namespace MesApi.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController(IProductService service) : ControllerBase
+    public class ProductController(IProductService service) : ControllerBase
     {
         private readonly IProductService _service = service;
 
