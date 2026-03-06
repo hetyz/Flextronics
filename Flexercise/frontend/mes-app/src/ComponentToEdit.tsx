@@ -38,7 +38,7 @@ import {
 } from "./helper";
 import { createApiClient } from "./api/client";
 import ProductModal from "./components/modal/ProductModal";
-import DeleteDialog from "./components/DeleteDialog";
+import DeleteDialog from "./components/dialog/DeleteDialog";
 import Header from "./components/layout/Header";
 
 TimeAgo.addDefaultLocale(en);
