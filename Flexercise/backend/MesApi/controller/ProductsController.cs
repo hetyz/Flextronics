@@ -1,35 +1,50 @@
+using MesApi.Dto;
+using MesApi.Entity;
+using MesApi.Extensions;
+using MesApi.Logic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductsController : ControllerBase
+namespace MesApi.Controller
 {
-    private readonly ApplicationDbContext _db;
-
-    public ProductsController(ApplicationDbContext db) => _db = db;
-
-    [HttpGet]
-    public async Task<ActionResult<List<Product>>> GetAll()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController(IProductService service) : ControllerBase
     {
-        return null;
+        private readonly IProductService _service = service;
+
+        [HttpGet]
+        public async Task<ActionResult<List<Product>>> GetAll()
+            => Ok(await _service.GetAllAsync());
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Product>> GetById(int id)
+        {
+            var p = await _service.GetByIdAsync(id);
+            return p is null ? NotFound() : Ok(p);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> Create(CreateProductDto dto)
+        {
+            var product = await _service.CreateAsync(dto);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = product.Id },
+                product
+            );
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, UpdateProductDto dto)
+        {
+            var result = await _service.UpdateAsync(id, dto);
+            return result.ToActionResult(this);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+            => await _service.DeleteAsync(id) ? NoContent() : NotFound();
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<Product>> GetById(int id)
-    {
-        return null;
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(Product dto)
-    {
-        return null;
-    }
-
-    [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        return null;
-    }
 }

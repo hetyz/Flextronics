@@ -1,8 +1,11 @@
-public enum ProductStatus
+namespace MesApi.Entity
 {
-    Completed,
-    InProgress,
-    Halted,
-    Failed,
-    Canceled
+    public enum ProductStatus
+    {
+        Completed,
+        InProgress,
+        Halted,
+        Failed,
+        Canceled
+    }
 }

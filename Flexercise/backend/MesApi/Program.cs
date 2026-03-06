@@ -1,7 +1,12 @@
+using MesApi.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -11,7 +16,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
@@ -24,11 +31,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors();
 
-app.MapGet("/api/products", (ApplicationDbContext context) =>
-{
-    return context.Products.ToList();
-})
-.WithName("GetProducts")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();

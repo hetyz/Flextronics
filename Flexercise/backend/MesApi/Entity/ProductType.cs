@@ -1,8 +1,11 @@
-public enum ProductType
+namespace MesApi.Entity
 {
-    Phone,
-    Tablet,
-    Smartwatch,
-    Earbuds,
-    Webcam
+    public enum ProductType
+    {
+        Phone,
+        Tablet,
+        Smartwatch,
+        Earbuds,
+        Webcam
+    }
 }
