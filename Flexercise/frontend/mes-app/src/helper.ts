@@ -14,6 +14,17 @@ export enum ProductStatus {
     Canceled
 }
 
+export interface CreateProduct {
+    name: string;
+    productType: ProductType;
+    description: string;
+    status: ProductStatus;
+}
+
+export interface UpdateProduct extends CreateProduct {
+    id: number;
+}
+
 export interface Product {
     id: number;
     name: string;
@@ -21,8 +32,8 @@ export interface Product {
     description: string;
     created: Date;
     status: ProductStatus;
-    ModifiedTime: Date;
-    LastUpdate: string;
+    modifiedTime: Date;
+    lastUpdate: string;
 }
 
 export const getProductStatusColor = (status: ProductStatus): 'brand' | 'danger' | 'important' | 'informative' | 'severe' | 'subtle' | 'success' | 'warning' => {
