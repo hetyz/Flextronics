@@ -8,3 +8,68 @@
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# -------------------
+# OS
+# -------------------
+.DS_Store
+Thumbs.db
+
+# -------------------
+# IDE
+# -------------------
+.vs/
+.idea/
+
+# -------------------
+# ENV
+# -------------------
+.env
+.env.*
+!.env.example
+
+# -------------------
+# Node / React
+# -------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -------------------
+# .NET
+# -------------------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+backend/**/bin/
+backend/**/obj/
+
+# -------------------
+# Logs
+# -------------------
+logs/
+*.log
+
+# -------------------
+# Docker
+# -------------------
+docker-compose.override.yml
+
+# -------------------
+# Build
+# -------------------
+dist/
+build/
+
+# -------------------
+# Temporary
+# -------------------
+tmp/
+temp/
+*.tmp
