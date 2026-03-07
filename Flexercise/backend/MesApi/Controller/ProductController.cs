@@ -13,18 +13,18 @@ namespace MesApi.Controller
         private readonly IProductService _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetAll()
+        public async Task<ActionResult<List<ProductDto>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Product>> GetById(int id)
+        public async Task<ActionResult<ProductDto>> GetById(int id)
         {
             var p = await _service.GetByIdAsync(id);
             return p is null ? NotFound() : Ok(p);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> Create(CreateProductDto dto)
+        public async Task<ActionResult<ProductDto>> Create(CreateProductDto dto)
         {
             var product = await _service.CreateAsync(dto);
 

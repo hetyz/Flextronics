@@ -1,5 +1,6 @@
 using MesApi.Dto;
 using MesApi.Entity;
+using MesApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace MesApi.Logic
@@ -10,26 +11,27 @@ namespace MesApi.Logic
     {
         private readonly ApplicationDbContext _db = db;
 
-        public async Task<Product> CreateAsync(CreateProductDto dto)
+        public async Task<ProductDto> CreateAsync(CreateProductDto dto)
         {
-            var product = new Product
-            {
-                Name = dto.Name,
-                ProductType = dto.ProductType,
-                Description = dto.Description,
-                Status = dto.Status,
-                Created = DateTime.UtcNow
-            };
+            var product = dto.ToEntity();
 
             _db.Products.Add(product);
             await _db.SaveChangesAsync();
 
-            return product;
+            return product.ToDto();
         }
 
-        public Task<List<Product>> GetAllAsync() => _db.Products.ToListAsync();
+        public async Task<List<ProductDto>> GetAllAsync()
+        {
+            var products = await _db.Products.ToListAsync();
+            return [.. products.Select(p => p.ToDto())];
+        }
 
-        public Task<Product?> GetByIdAsync(int id) => _db.Products.FindAsync(id).AsTask();
+        public async Task<ProductDto?> GetByIdAsync(int id)
+        {
+            var product = await _db.Products.FindAsync(id);
+            return product?.ToDto();
+        }
 
         public async Task<UpdateResult> UpdateAsync(int id, UpdateProductDto dto)
         {
@@ -54,6 +56,7 @@ namespace MesApi.Logic
         {
             var product = await _db.Products.FindAsync(id);
             if (product is null) return false;
+
             _db.Products.Remove(product);
             await _db.SaveChangesAsync();
             return true;
