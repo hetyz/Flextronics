@@ -1,6 +1,7 @@
 using MesApi.Dto;
 using MesApi.Entity;
 using MesApi.Extensions;
+using MesApi.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace MesApi.Logic

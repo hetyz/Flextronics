@@ -1,34 +1,69 @@
 using MesApi.Entity;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : DbContext(options)
+namespace MesApi.Infrastructure
 {
-    private readonly string _connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-    public DbSet<Product> Products { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : DbContext(options)
     {
-        optionsBuilder.UseSqlServer(_connectionString);
-    }
+        private readonly string _connectionString =
+            configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        var endDate = DateTime.Now;
-        var startDate = endDate.Subtract(TimeSpan.FromDays(5));
+        public DbSet<Product> Products { get; set; }
 
-        modelBuilder.Entity<Product>().HasData(
-            new Product { Id = 1, Name = "Phone product", ProductType = ProductType.Phone, Description = "Phone product description", Created = RandomDate(startDate, endDate), Status = ProductStatus.Completed, ModifiedTime = null, LastUpdate = "", },
-            new Product { Id = 2, Name = "Tablet product", ProductType = ProductType.Tablet, Description = "Tablet product description", Created = RandomDate(startDate, endDate), Status = ProductStatus.InProgress, ModifiedTime = null, LastUpdate = "",  },
-            new Product { Id = 3, Name = "Smartwatch product", ProductType = ProductType.Smartwatch, Description = "Smartwatch product description", Created = RandomDate(startDate, endDate), Status = ProductStatus.Halted, ModifiedTime = null, LastUpdate = "", },
-            new Product { Id = 4, Name = "Earbuds product", ProductType = ProductType.Earbuds, Description = "Earbuds product description", Created = RandomDate(startDate, endDate), Status = ProductStatus.Canceled, ModifiedTime = null, LastUpdate = "", }
-        );
-    }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
 
-    private DateTime RandomDate(DateTime start, DateTime end)
-    {
-        var rand = new Random();
-        var range = (end - start).Days;
-        return start.AddDays(rand.Next(range)).AddHours(rand.Next(0, 24)).AddMinutes(rand.Next(0, 60)).AddSeconds(rand.Next(0, 60));
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().HasData(
+                new Product
+                {
+                    Id = 1,
+                    Name = "Phone product",
+                    ProductType = ProductType.Phone,
+                    Description = "Phone product description",
+                    Created = new DateTime(2026, 3, 1, 10, 0, 0, DateTimeKind.Utc),
+                    Status = ProductStatus.Completed,
+                    ModifiedTime = null,
+                    LastUpdate = ""
+                },
+                new Product
+                {
+                    Id = 2,
+                    Name = "Tablet product",
+                    ProductType = ProductType.Tablet,
+                    Description = "Tablet product description",
+                    Created = new DateTime(2026, 3, 2, 10, 0, 0, DateTimeKind.Utc),
+                    Status = ProductStatus.InProgress,
+                    ModifiedTime = null,
+                    LastUpdate = ""
+                },
+                new Product
+                {
+                    Id = 3,
+                    Name = "Smartwatch product",
+                    ProductType = ProductType.Smartwatch,
+                    Description = "Smartwatch product description",
+                    Created = new DateTime(2026, 3, 3, 10, 0, 0, DateTimeKind.Utc),
+                    Status = ProductStatus.Halted,
+                    ModifiedTime = null,
+                    LastUpdate = ""
+                },
+                new Product
+                {
+                    Id = 4,
+                    Name = "Earbuds product",
+                    ProductType = ProductType.Earbuds,
+                    Description = "Earbuds product description",
+                    Created = new DateTime(2026, 3, 4, 10, 0, 0, DateTimeKind.Utc),
+                    Status = ProductStatus.Canceled,
+                    ModifiedTime = null,
+                    LastUpdate = ""
+                }
+            );
+        }
     }
 }

@@ -1,3 +1,4 @@
+using MesApi.Infrastructure;
 using MesApi.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
